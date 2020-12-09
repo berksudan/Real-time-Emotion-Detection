@@ -144,9 +144,7 @@ class DatasetBuilder:
                 csv_dataset.write(self.header)
             for i, labeled_img in enumerate(self.labeled_images):
                 landmark_points = lm.img_path_to_landmarks(img_path=labeled_img.img_path)[0]
-                print(">", len(landmark_points))
-
                 instance = landmark_points + (labeled_img.img_label,)
                 csv_dataset.write(list_to_csv_line(instance))
-                print('[INFO]', 'Written Instance Progress: %d/%d' % ((i + 1), len(self.labeled_images)))
+                print('[INFO]', 'Written Face Instance Progress: %d/%d' % ((i + 1), len(self.labeled_images)))
         print('\nAll instances are successfully written to file: \"%s\"' % target)
