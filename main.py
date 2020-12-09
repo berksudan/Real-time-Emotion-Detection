@@ -1,29 +1,30 @@
-from data_land_marker import LandMarker
+from utils.data_land_marker import LandMarker
+from data_preparer import PreProcessor, DatasetBuilder
 
 from image_classifier import Classifier
 from camera_classifier import CameraClassifier
+from os.path import isfile
 
-IMAGES_DIR = 'data/images/'
+DATASET_IMAGES_DIR = 'data/raw'
 PREDICTOR_PATH = 'shape_predictor_68_face_landmarks.dat'
 
-INITIAL_CSV = 'data/ds_original.csv'
-FINAL_CSV = 'data/ds_classes_equalized.csv'
+DATASET_CSV = 'data/csv/dataset.csv'
 
 
 def main():
     land_marker = LandMarker(landmark_predictor_path=PREDICTOR_PATH)
-    rf_classifier = Classifier(csv_path=FINAL_CSV, algorithm='SVM', land_marker=land_marker)
 
-    """
-    from data_preparer import PreProcessor, DatasetBuilder
-    
-    # Pre-process data
-    PreProcessor(data_dir=IMAGES_DIR).preprocess() 
+    if not isfile(DATASET_CSV):
+        print('[INFO]', f'Dataset file: "{DATASET_CSV}" could not found.')
+        # Pre-process data
+        labeled_images = PreProcessor(dataset_parent_dir=DATASET_IMAGES_DIR).preprocess()
 
-    # Build dataset as csv
-    DatasetBuilder(data_dir=IMAGES_DIR, class_feature='emotion', landmarker=landmarker).build(target=INITIAL_CSV)
-    """
+        # Build dataset as csv
+        DatasetBuilder(labeled_images, class_col='emotion', land_marker=land_marker).build(target=DATASET_CSV)
+    else:
+        print('[INFO]', f'Dataset file: "{DATASET_CSV}" found.')
 
+    rf_classifier = Classifier(csv_path=DATASET_CSV, algorithm='SVM', land_marker=land_marker)
     CameraClassifier(classifier_model=rf_classifier).execute()
 
 
