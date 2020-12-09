@@ -77,29 +77,29 @@ class CameraClassifier:
         resized_img = self.CLAHE.apply(gray_img)  # resize
         return resized_img
 
-    def execute(self, wait_key_delay=33, quit_key='q'):
+    def execute(self, wait_key_delay=33, quit_key='q', frame_period_s=0.75):
         frame_cnt = 0
-        displayed_txt = ''
+        predicted_labels = ''
         old_txt = None
-        x, y, w, h = 0, 0, 0, 0
-        landmark_points = [(0, 0)]
+        rectangles = [(0, 0, 0, 0)]
+        landmark_points_list = [[(0, 0)]]
         while cv2.waitKey(delay=wait_key_delay) != ord(quit_key):
             frame_cnt += 1
 
             frame = self.read_frame()
-            if frame_cnt % 75 == 0:
+            if frame_cnt % (frame_period_s * 100) == 0:
                 frame_cnt = 0
-                displayed_txt = self.classifier.classify(img=self.transform_img(img=frame))
-                x, y, w, h = self.classifier.extract_face_rectangle(img=frame)
-                landmark_points = self.classifier.extract_landmark_points(img=frame)
+                predicted_labels = self.classifier.classify(img=self.transform_img(img=frame))
+                rectangles = self.classifier.extract_face_rectangle(img=frame)
+                landmark_points_list = self.classifier.extract_landmark_points(img=frame)
+            for lbl, rectangle, lm_points in zip(predicted_labels, rectangles, landmark_points_list):
+                draw_face_rectangle(BoundingBox(*rectangle), frame)
+                draw_landmark_points(points=lm_points, img=frame)
+                write_label(rectangle[0], rectangle[1], label=lbl, img=frame)
 
-            draw_face_rectangle(BoundingBox(x, y, w, h), frame)
-            draw_landmark_points(points=landmark_points, img=frame)
-            write_label(x, y, label=displayed_txt, img=frame)
-
-            if old_txt != displayed_txt:
-                print('>', displayed_txt)
-                old_txt = displayed_txt
+                if old_txt != predicted_labels:
+                    print('PREDICTED LABELS:', predicted_labels)
+                    old_txt = predicted_labels
 
             cv2.imshow('Emotion Detection - Mimics', frame)
 
