@@ -2,7 +2,7 @@
 
 ![Sample Emotion Detection Image](docs/emotion_detection_example.png)
 ## Abstract
-8 emotions detected in real-time with 85% accuracy. Used: OpenCV, Python 3, Keras, Data Preprocessing, Deep Learning & Machine learning Techniques.
+8 emotions detected in real-time with \~77% accuracy. Used: OpenCV, Python 3, Keras, Data Preprocessing, Deep Learning & Machine learning Techniques.
 
 ## Build
 You can build the project by executing following bash file:
@@ -19,7 +19,7 @@ Note that, if you have trouble with installing dllib library, you can check out 
 After build, you can enter the following command in your Linux Terminal to run the program:
 
 ```bash
-./run.sh
+./run_all.sh
 ```
 Note that, you will get emotion detection results live and periodically. You can run "main.py" with "python3" if you want to see the emotion detection results in console. 
 
@@ -28,30 +28,6 @@ Note that, you will get emotion detection results live and periodically. You can
 
 **Source:** http://www.consortium.ri.cmu.edu/ckagree/
  
-## Folder Structure
-```bash
-$ tree -L 2
-.
-├── build.sh
-├── camera_classifier.py
-├── data
-│   ├── ds_classes_equalized.csv
-│   └── ds_original.csv
-├── data_land_marker.py
-├── data_preparer.py
-├── data_transformer.py
-├── docs
-│   ├── presentation
-│   └── project_report
-├── image_classifier.py
-├── main.py
-├── README.md
-├── run.sh
-└── shape_predictor_68_face_landmarks.dat
-
-4 directories, 12 files
-
-```
 
 ## Contributors
 - *Berk Sudan*, [GitHub](https://github.com/berksudan), [LinkedIn](https://linkedin.com/in/berksudan/)
