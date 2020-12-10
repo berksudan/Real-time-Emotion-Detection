@@ -148,3 +148,11 @@ class DatasetBuilder:
                 csv_dataset.write(list_to_csv_line(instance))
                 print('[INFO]', 'Written Face Instance Progress: %d/%d' % ((i + 1), len(self.labeled_images)))
         print('\nAll instances are successfully written to file: \"%s\"' % target)
+
+
+def run_data_preparer(land_marker: LandMarker, dataset_images_dir: str, dataset_csv: str):
+    # Pre-process data
+    labeled_images = PreProcessor(dataset_parent_dir=dataset_images_dir).preprocess()
+
+    # Build dataset as csv
+    DatasetBuilder(labeled_images, class_col='emotion', land_marker=land_marker).build(target=dataset_csv)
