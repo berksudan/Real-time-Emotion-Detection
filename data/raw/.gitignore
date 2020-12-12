@@ -1,3 +1,7 @@
+<<<<<<< HEAD
 # Ignore the content of this folder since it has profuse number of files.
+=======
+# Ignore the content pf this folder since it has profuse number of files.
+>>>>>>> eb8b9dd560ed05f105a54d59e07b36434a946f86
 *
 !.gitignore
