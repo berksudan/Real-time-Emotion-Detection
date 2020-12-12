@@ -25,8 +25,8 @@ class LandMarker:
         face_land_marks_list = []
         for k, d in enumerate(detections):  # For all detected face instances individually
             shape = self.predictor(img, d)  # Draw Facial Landmarks with the predictor class
-            x_list = tuple(float(shape.part(i).x) for i in range(1, LAND_MARK_POINTS_SIZE))
-            y_list = tuple(float(shape.part(i).y) for i in range(1, LAND_MARK_POINTS_SIZE))
+            x_list = tuple(float(shape.part(i).x) for i in range(LAND_MARK_POINTS_SIZE))
+            y_list = tuple(float(shape.part(i).y) for i in range(LAND_MARK_POINTS_SIZE))
             face_land_marks_list.append(tuple(dt.points_to_vectors(x_list, y_list, exclude_vector_base)))
         return face_land_marks_list
 
