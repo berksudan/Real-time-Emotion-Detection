@@ -1,2 +1,3 @@
-# Ignore the content pf this folder since it has profuse number of files.
-./*
+# Ignore the content of this folder since it has profuse number of files.
+*
+!.gitignore
